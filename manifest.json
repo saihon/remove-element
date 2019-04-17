@@ -1,6 +1,6 @@
 {
   "name": "RemoveElement",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Remove HTML5 elements on the context menu",
   "icons": {
     "128": "icons/icon-128.png",
