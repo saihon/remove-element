@@ -9,25 +9,13 @@
         chrome.runtime.onMessage.addListener(self.reciever.bind(self));
     };
 
-    RemoveElement.prototype.identifier = function(element) {
-        let attrs = [ 'type', 'id', 'class', 'alt' ];
-        let text  = `「  ${element.tagName.toLowerCase()}`;
-        let value;
-        for (let name of attrs) {
-            if (value = element[name == 'alt' ? 'altName' : name]) {
-                text += ` [ ${name} ="${value}"]`;
-                break;
-            }
-        }
-        return text + `  ${element.offsetWidth} x ${element.offsetHeight} 」`;
-    };
-
     RemoveElement.prototype.send = function(element) {
         let self = this;
-        let o    = {captured : false, identifier : '「 ERROR 」'};
+        let o    = {captured : false, title : '「 ERROR 」'};
         if (element) {
-            o.captured   = true;
-            o.identifier = self.identifier(element);
+            o.captured = true;
+            o.title = '「  ' + element.localName + ' : ' + element.offsetWidth +
+                      ' x ' + element.offsetHeight + ' 」';
             self.element = element;
         }
         chrome.runtime.sendMessage(o);

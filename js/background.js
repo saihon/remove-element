@@ -2,7 +2,7 @@
 
 let propertyDefault = {
     id : 'remove-element',
-    title : 'Remove element',
+    title : '「 Remove element 」',
     type : 'normal',
     contexts : [ 'all' ]
 };
@@ -31,7 +31,7 @@ let onClicked = () => {
 let onMessage = (request, sender, sendResponse) => {
     tabId = sender.tab.id;
     if (request.captured) {
-        contextmenuUpdate(request.identifier, onClicked);
+        contextmenuUpdate(request.title, onClicked);
     } else {
         contextmenuUpdate();
     }
