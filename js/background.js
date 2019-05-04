@@ -9,32 +9,25 @@ let propertyDefault = {
 
 let tabId = 0;
 
-let contextmenuUpdate = (title, onclicked) => {
+let contextmenuUpdate = (title) => {
     let property = {
         title : title || propertyDefault.title,
         type : propertyDefault.type,
-        contexts : propertyDefault.contexts
+        contexts : propertyDefault.contexts,
+        onclick : onClicked
     };
-    if (onclicked) property.onclick = onclicked;
     chrome.contextMenus.update(propertyDefault.id, property);
 };
 
-let onActiveChanged = (info) => {
-    contextmenuUpdate();
-};
+let onActiveChanged = (info) => contextmenuUpdate();
 
 let onClicked = () => {
-    let callback = () => contextmenuUpdate();
-    chrome.tabs.sendMessage(tabId, 'clicked', callback);
+    chrome.tabs.sendMessage(tabId, 'clicked', onActiveChanged);
 };
 
 let onMessage = (request, sender, sendResponse) => {
     tabId = sender.tab.id;
-    if (request.captured) {
-        contextmenuUpdate(request.title, onClicked);
-    } else {
-        contextmenuUpdate();
-    }
+    contextmenuUpdate(request.title);
     sendResponse({});
 };
 
