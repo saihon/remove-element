@@ -32,11 +32,10 @@ RemoveElement.prototype.reciever = function(request, send, sendResponse) {
 
 let mousedown = (e) => {
     if (e.button != 2) return;
-    let _instance = instance;
-    if (!(_instance instanceof RemoveElement)) {
-        _instance = instance = new RemoveElement();
+    if (!(instance instanceof RemoveElement)) {
+        instance = new RemoveElement();
     }
-    _instance.send(e.target);
+    instance.send(e.target);
 };
 
 let loaded = () => document.addEventListener('mousedown', mousedown, false);
