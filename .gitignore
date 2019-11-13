@@ -1,4 +1,3 @@
 *.sh
 *.xpi
 node_modules/
-img/
