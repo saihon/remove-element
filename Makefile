@@ -1,11 +1,15 @@
 NAME := remove-element
-XPI := $(NAME).xpi
-SOURCE := icons js manifest.json
+TARGET = firefox
 
-.PHONY: build clean
+.PHONY: build clean build-chrome build-firefox
 
-build:
-	zip -r $(XPI) $(SOURCE)
+build: build-$(TARGET)
+
+build-firefox:
+	zip -r $(NAME).xpi src/icons src/js src/manifest.json
+
+build-chrome:
+	zip -r $(NAME).zip src
 
 clean:
-	$(RM) $(XPI)
+	$(RM) $(NAME).zip $(NAME).xpi
