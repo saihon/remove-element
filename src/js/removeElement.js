@@ -9,8 +9,7 @@ function RemoveElement() {
 };
 
 RemoveElement.prototype.send = function(element) {
-    let self = this;
-    let o    = {};
+    let self = this, o = {};
     if (element) {
         o.title = '「  ' + element.localName + ' : ' +
                   (element.offsetWidth || '??') + ' x ' +
@@ -30,13 +29,11 @@ RemoveElement.prototype.reciever = function(request, send, sendResponse) {
     sendResponse({});
 };
 
-let mousedown = (e) => {
-    if (e.button != 2) return;
+let onContextmenu = (e) => {
     if (!(instance instanceof RemoveElement)) {
         instance = new RemoveElement();
     }
     instance.send(e.target);
 };
 
-let loaded = () => document.addEventListener('mousedown', mousedown, false);
-window.addEventListener('DOMContentLoaded', loaded, false);
+document.addEventListener('contextmenu', onContextmenu, false);

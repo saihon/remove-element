@@ -1,6 +1,6 @@
 {
   "name": "RemoveElement",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Remove HTML elements from the right-click context menu",
   "icons": {
     "128": "icons/icon-128.png",
@@ -9,9 +9,7 @@
     "16": "icons/icon-16.png"
   },
   "permissions": [
-    "contextMenus",
-    "tabs",
-    "<all_urls>"
+    "contextMenus"
   ],
   "background": {
     "scripts": [
@@ -22,7 +20,7 @@
   "content_scripts": [
     {
       "all_frames": true,
-      "run_at": "document_start",
+      "run_at": "document_end",
       "matches": [
         "<all_urls>"
       ],

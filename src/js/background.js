@@ -7,8 +7,6 @@ let propertyDefault = {
     contexts : [ 'all' ]
 };
 
-let tabId = 0;
-
 let contextmenuUpdate = (title) => {
     let property = {
         title : title || propertyDefault.title,
@@ -19,18 +17,14 @@ let contextmenuUpdate = (title) => {
     chrome.contextMenus.update(propertyDefault.id, property);
 };
 
-let onActiveChanged = (info) => contextmenuUpdate();
-
-let onClicked = () => {
-    chrome.tabs.sendMessage(tabId, 'clicked', onActiveChanged);
+let onClicked = (_, tab) => {
+    chrome.tabs.sendMessage(tab.id, 'clicked', () => contextmenuUpdate());
 };
 
 let onMessage = (request, sender, sendResponse) => {
-    tabId = sender.tab.id;
     contextmenuUpdate(request.title);
     sendResponse({});
 };
 
 chrome.contextMenus.create(propertyDefault);
 chrome.runtime.onMessage.addListener(onMessage);
-chrome.tabs.onActivated.addListener(onActiveChanged);
