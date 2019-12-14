@@ -1,12 +1,15 @@
 NAME := remove-element
-TARGET = firefox
+TARGET = all
 
-.PHONY: build clean build-chrome build-firefox
+.PHONY: build clean build-all build-chrome build-firefox
 
 build: build-$(TARGET)
 
+build-all: build-firefox build-chrome
+
 build-firefox:
-	zip -r $(NAME).xpi src/icons src/js src/manifest.json
+	@cd ./src && \
+	zip -r ../$(NAME).xpi icons js manifest.json
 
 build-chrome:
 	zip -r $(NAME).zip src
