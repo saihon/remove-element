@@ -1,18 +1,23 @@
 NAME := remove-element
-TARGET = all
+DIST := dist
+SOURCE := src
 
-.PHONY: build clean build-all build-chrome build-firefox
-
-build: build-$(TARGET)
-
-build-all: build-firefox build-chrome
-
-build-firefox:
-	@cd ./src && \
-	zip -r ../$(NAME).xpi icons js manifest.json
-
-build-chrome:
-	zip -r $(NAME).zip src
+.PHONY: clean prepar prepar-firefox prepar-chrome build-chrome build-firefox
 
 clean:
-	$(RM) $(NAME).zip $(NAME).xpi
+	rm -rf $(DIST) $(NAME).zip $(NAME).xpi
+
+prepar: clean
+	mkdir $(DIST) && cp -r $(SOURCE)/icons $(SOURCE)/js $(DIST)
+
+prepar-firefox: prepar
+	cp $(SOURCE)/manifest-firefox.json $(DIST)/manifest.json
+
+prepar-chrome: prepar
+	cp $(SOURCE)/manifest-chrome.json $(DIST)/manifest.json
+
+build-firefox: prepar-firefox
+	cd $(DIST) && zip -r ../$(NAME).xpi ./*
+
+build-chrome: prepar-chrome
+	zip -r $(NAME).zip $(DIST)
