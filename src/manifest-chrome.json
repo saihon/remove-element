@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "RemoveElement",
-  "version": "0.0.6",
+  "version": "1.0",
   "description": "Remove HTML elements from the right-click context menu",
   "icons": {
     "128": "icons/icon-128.png",
