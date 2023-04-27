@@ -35,20 +35,9 @@ function contextMenu() {
     };
 }
 
-if (typeof browser !== "undefined") {
-    /*
-     * > Place menu creation using menus.create or its alias contextMenus.create
-     * > in a runtime.onInstalled listener.
-     * > Also, note that the menus.onClicked event or its alias contextMenus.onClicked
-     * > must be used to handle menu entry click events from an event page,
-     * > instead of the onclick parameter of the contextMenus.create or contextMenus.update methods.
-     * > If the onclick property of menus.create or its alias contextMenus.create are
-     * > used from a call originating from an event page, they throw synchronously.
-     * > https://extensionworkshop.com/documentation/develop/manifest-v3-migration-guide/
-     */
-    chrome.runtime.onInstalled.addListener(() => chrome.contextMenus.create(contextMenu().item));
-} else {
+function onInstalledListener(details) {
     chrome.contextMenus.create(contextMenu().item);
 }
+chrome.runtime.onInstalled.addListener(onInstalledListener);
 chrome.contextMenus.onClicked.addListener(contextMenu().onClicked);
 chrome.runtime.onMessage.addListener(contextMenu().onMessage);
