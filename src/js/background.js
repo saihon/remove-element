@@ -35,9 +35,6 @@ function contextMenu() {
     };
 }
 
-function onInstalledListener(details) {
-    chrome.contextMenus.create(contextMenu().item);
-}
-chrome.runtime.onInstalled.addListener(onInstalledListener);
+chrome.contextMenus.create(contextMenu().item);
 chrome.contextMenus.onClicked.addListener(contextMenu().onClicked);
 chrome.runtime.onMessage.addListener(contextMenu().onMessage);
