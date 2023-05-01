@@ -35,6 +35,14 @@ function contextMenu() {
     };
 }
 
-chrome.contextMenus.create(contextMenu().item);
-chrome.contextMenus.onClicked.addListener(contextMenu().onClicked);
-chrome.runtime.onMessage.addListener(contextMenu().onMessage);
+const cm = contextMenu();
+
+const onInstalled = () => {
+    // Menu creation is within onInstalled listener.
+    // https://developer.chrome.com/docs/extensions/mv3/service_workers/#initialization
+    // https://extensionworkshop.com/documentation/develop/manifest-v3-migration-guide/
+    chrome.contextMenus.create(cm.item);
+};
+chrome.runtime.onInstalled.addListener(onInstalled);
+chrome.contextMenus.onClicked.addListener(cm.onClicked);
+chrome.runtime.onMessage.addListener(cm.onMessage);
