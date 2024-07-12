@@ -1,4 +1,7 @@
 *.sh
 *.xpi
 *.zip
+
+dist/
+
 node_modules/
