@@ -3,6 +3,12 @@
   "name": "RemoveElement",
   "version": "1.0",
   "description": "Remove HTML elements from the right-click context menu",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{9de297d4-54da-4998-a72b-2370e44d7b3e}",
+      "strict_min_version": "109.0"
+    }
+  },
   "icons": {
     "128": "icons/icon-128.png",
     "48": "icons/icon-48.png",
