@@ -1,48 +1,40 @@
 "use strict";
 
-function contextMenu() {
-    const item = {
+function getDefaultMenuItem() {
+    return Object.freeze({
         id: "remove-element",
         title: "「 Remove element 」",
         type: "normal",
         contexts: ["all"],
-    };
-
-    const update = (title) => {
-        const menuItem = {
-            title: title || item.title,
-            type: item.type,
-            contexts: item.contexts,
-        };
-        chrome.contextMenus.update(item.id, menuItem);
-    };
-
-    const onClicked = (info, tab) => {
-        if (info.menuItemId == item.id) {
-            chrome.tabs.sendMessage(tab.id, "clicked", () => update());
-        }
-    };
-
-    const onMessage = (request, sender, sendResponse) => {
-        update(request.title);
-        sendResponse({});
-    };
-
-    return {
-        item,
-        onClicked,
-        onMessage,
-    };
+    });
 }
 
-const cm = contextMenu();
+function updateMenuItem(title) {
+    const defaultMenuItem = getDefaultMenuItem();
+    const menuItem = {
+        title: title || defaultMenuItem.title,
+        type: defaultMenuItem.type,
+        contexts: defaultMenuItem.contexts,
+    };
+    chrome.contextMenus.update(defaultMenuItem.id, menuItem);
+}
 
-const onInstalled = () => {
-    // Menu creation is within onInstalled listener.
-    // https://developer.chrome.com/docs/extensions/mv3/service_workers/#initialization
-    // https://extensionworkshop.com/documentation/develop/manifest-v3-migration-guide/
-    chrome.contextMenus.create(cm.item);
-};
+function onClicked(info, tab) {
+    const defaultMenuItem = getDefaultMenuItem();
+    if (info.menuItemId == defaultMenuItem.id) {
+        chrome.tabs.sendMessage(tab.id, "clicked", () => updateMenuItem());
+    }
+}
+
+function onMessage(request, sender, sendResponse) {
+    updateMenuItem(request.title);
+    sendResponse({});
+}
+
+function onInstalled() {
+    chrome.contextMenus.create(getDefaultMenuItem());
+}
+
 chrome.runtime.onInstalled.addListener(onInstalled);
-chrome.contextMenus.onClicked.addListener(cm.onClicked);
-chrome.runtime.onMessage.addListener(cm.onMessage);
+chrome.contextMenus.onClicked.addListener(onClicked);
+chrome.runtime.onMessage.addListener(onMessage);
